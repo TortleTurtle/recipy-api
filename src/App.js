@@ -23,28 +23,38 @@ function App() {
     setRecipes(data.items);
   };
 
+  //pagination
   const updateLimit = e => {
     setLimit(e.target.value);
   };
   const updateStart = e => {
     setStart(e.target.value);
-  }
-
+  };
   const updateQuery = e => {
     e.preventDefault();
     setQuery(`limit=${limit}&start=${start}`);
-  }
+  };
+  const nextPage = () => {
+    setStart(start + 1);
+    setQuery(`limit=${limit}&start=${start}`);
+  };
+  const prevPage = () => {
+    setStart(start - 1);
+    setQuery(`limit=${limit}&start=${start}`);
+  };
 
   return (
     <div className="App">
       <div className="row">
-        <form onSubmit={updateQuery}>
-          <p>Items per page:</p>
+        <button onClick={prevPage}>previous</button>
+        <form onSubmit={updateQuery} className='navigation'>
+          <label htmlFor="limit">Items per page:</label>
           <input name="limit" type="number" onChange={updateLimit} value={limit}></input>
-          <label for="start">Page:</label>
+          <label htmlFor="start">Page:</label>
           <input name="start" type="number" onChange={updateStart} value={start}></input>
           <button name="submit" type="submit">Go!</button>
         </form>
+        <button onClick={nextPage}>next</button>
       </div>
       <div className="row">
         {recipes.map(recipe => (

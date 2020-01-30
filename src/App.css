@@ -30,6 +30,12 @@
   margin: 1em 0 1em 0;
 }
 
+.navigation {
+  display: flex;
+  justify-content: space-evenly;
+  flex-basis: 40%;
+}
+
 .green {
   background-color: darkgreen;
 }
