@@ -58,7 +58,7 @@ function App() {
       </div>
       <div className="row">
         {recipes.map(recipe => (
-          <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} />
+          <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} ingredients={recipe.ingredients} instructions={recipe.instructions} vegetarian={recipe.vegetarian} vegan={recipe.vegan} />
         ))}
       </div>
     </div>
