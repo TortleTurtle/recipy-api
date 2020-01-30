@@ -8,23 +8,49 @@ function App() {
 
   //states
   const [recipes, setRecipes] = useState([]);
+  const [limit, setLimit] = useState(5);
+  const [start, setStart] = useState(1);
+  const [query, setQuery] = useState(`limit=5&start=1`);
 
   useEffect(() => {
     console.log("useEffect has run!");
-    indexRecipies();
-  }, []);
+    getRecipies();
+  }, [query]);
 
-  const indexRecipies = async () => {
-    const res = await fetch(`${origin}/recipes?limit=6&start=0`);
+  const getRecipies = async () => {
+    const res = await fetch(`${origin}/recipes?${query}`);
     const data = await res.json();
     setRecipes(data.items);
-  } 
+  };
+
+  const updateLimit = e => {
+    setLimit(e.target.value);
+  };
+  const updateStart = e => {
+    setStart(e.target.value);
+  }
+
+  const updateQuery = e => {
+    e.preventDefault();
+    setQuery(`limit=${limit}&start=${start}`);
+  }
 
   return (
     <div className="App">
-      {recipes.map(recipe => (
-        <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} />
-      ))}
+      <div className="row">
+        <form onSubmit={updateQuery}>
+          <p>Items per page:</p>
+          <input name="limit" type="number" onChange={updateLimit} value={limit}></input>
+          <label for="start">Page:</label>
+          <input name="start" type="number" onChange={updateStart} value={start}></input>
+          <button name="submit" type="submit">Go!</button>
+        </form>
+      </div>
+      <div className="row">
+        {recipes.map(recipe => (
+          <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} />
+        ))}
+      </div>
     </div>
   );
 }
