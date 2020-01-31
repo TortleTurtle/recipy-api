@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import "./App.css";
 import Details from './details';
 
-function Recipe({title, kitchen, ingredients, instructions, vegetarian, vegan}) {
+function Recipe({recipe, rerender}) {
 
     const [toggle, setToggle] = useState(false);
     
@@ -12,10 +12,10 @@ function Recipe({title, kitchen, ingredients, instructions, vegetarian, vegan}) 
 
     return (
         <div className="recipe">
-            <h3>{title}</h3>
-            <h5>Kitchen: {kitchen}</h5>
+            <h3>{recipe.title}</h3>
+            <h5>Kitchen: {recipe.kitchen}</h5>
             <button onClick={updateToggle}>Details</button>
-            { toggle ? <Details ingrediënts={ingredients} instructions={instructions} vegan={vegan} /> : null}
+            { toggle ? <Details id={recipe.id} ingrediënts={recipe.ingredients} instructions={recipe.instructions} vegan={recipe.vegan} rerender={rerender}/> : null}
         </div>
     );
 }

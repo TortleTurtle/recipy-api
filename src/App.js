@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Recipe from './recipe';
+import RecipeForm from './recipeForm';
 import './App.css';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
 
   //states
   const [recipes, setRecipes] = useState([]);
+  const [modal, setModal] = useState(false);
   const [limit, setLimit] = useState(5);
   const [start, setStart] = useState(1);
   const [query, setQuery] = useState(`limit=5&start=1`);
@@ -15,13 +17,22 @@ function App() {
   useEffect(() => {
     console.log("useEffect has run!");
     getRecipies();
-  }, [query]);
+  }, [query, modal, recipes]);
+
 
   const getRecipies = async () => {
     const res = await fetch(`${origin}/recipes?${query}`);
     const data = await res.json();
     setRecipes(data.items);
   };
+
+  const showModal = () => {
+    setModal(true);
+  }
+  const hideModal = () => {
+    console.log('closing modal');
+    setModal(false);
+  }
 
   //pagination
   const updateLimit = e => {
@@ -45,6 +56,7 @@ function App() {
 
   return (
     <div className="App">
+      { modal ? <RecipeForm show={ modal ? "recipeForm show" : "recipeForm hide"} hideModal={hideModal} /> : null }
       <div className="row">
         <button onClick={prevPage}>previous</button>
         <form onSubmit={updateQuery} className='navigation'>
@@ -58,8 +70,11 @@ function App() {
       </div>
       <div className="row">
         {recipes.map(recipe => (
-          <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} ingredients={recipe.ingredients} instructions={recipe.instructions} vegetarian={recipe.vegetarian} vegan={recipe.vegan} />
+          <Recipe key={recipe.id} recipe={recipe} rerender={getRecipies} />
         ))}
+      </div>
+      <div className="row">
+        <button onClick={showModal}>Voeg een recept toe!</button>
       </div>
     </div>
   );
