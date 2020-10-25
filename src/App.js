@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Recipe from './recipe';
+import InputFields from './inputFields'
 import './App.css';
 
 function App() {
@@ -60,6 +61,9 @@ function App() {
         {recipes.map(recipe => (
           <Recipe key={recipe.id} title={recipe.title} kitchen={recipe.kitchen} ingredients={recipe.ingredients} instructions={recipe.instructions} vegetarian={recipe.vegetarian} vegan={recipe.vegan} />
         ))}
+      </div>
+      <div className="row">
+        <InputFields />
       </div>
     </div>
   );
